@@ -8,7 +8,6 @@ from urllib import request, parse
 IMAGE_URL = "https://raw.githubusercontent.com/hayashikun/fugaku36/master/resouces/images/{}"
 JSON_URL = "https://raw.githubusercontent.com/hayashikun/fugaku36/master/resouces/resource.json"
 PY_SCRIPT_URL = "https://raw.githubusercontent.com/hayashikun/fugaku36/master/fugaku36.py"
-SH_SCRIPT_URL = "https://raw.githubusercontent.com/hayashikun/fugaku36/master/fugaku36"
 
 HOME_PATH = path.expanduser("~")
 INSTALL_PATH = path.join(HOME_PATH, ".cache", "fugaku36")
@@ -57,8 +56,19 @@ def install():
         logger.info("Image %s has been downloaded.", name)
 
     request.urlretrieve(PY_SCRIPT_URL, PY_SCRIPT_PATH)
-    request.urlretrieve(SH_SCRIPT_URL, SH_SCRIPT_PATH)
-    logger.info("Scripts have been downloaded.")
+    logger.info("Python scripts have been downloaded.")
+
+    with open(PY_SCRIPT_PATH) as f:
+        py_script = f.read()
+    py_script = "#!/usr/bin/python3\n" + py_script
+
+    with open(SH_SCRIPT_PATH, "w") as f:
+        f.write(py_script)
+
+    cmd = [
+        "chmod", "a+x", SH_SCRIPT_PATH
+    ]
+    subprocess.run(cmd)
 
     cmd = [
         "ln",
