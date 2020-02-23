@@ -82,19 +82,6 @@ def install():
     subprocess.run(cmd)
     logger.info("Symbolic link is created.")
 
-    cmd = [
-        "cp",
-        PLIST_PATH,
-        LAUNCH_AGENTS_PATH
-    ]
-    subprocess.run(cmd)
-
-    cmd = [
-        "launchctl", "load", LAUNCH_AGENTS_PATH
-    ]
-    subprocess.run(cmd)
-    logger.info("Application is registered to launchd.")
-
     logger.info("fugaku36 is successfully installed!")
 
 
