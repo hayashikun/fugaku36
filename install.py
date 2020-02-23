@@ -8,6 +8,7 @@ from urllib import request, parse
 IMAGE_URL = "https://raw.githubusercontent.com/hayashikun/fugaku36/master/resouces/images/{}"
 JSON_URL = "https://raw.githubusercontent.com/hayashikun/fugaku36/master/resouces/resource.json"
 PY_SCRIPT_URL = "https://raw.githubusercontent.com/hayashikun/fugaku36/master/fugaku36.py"
+PLIST_URL = "https://raw.githubusercontent.com/hayashikun/fugaku36/master/fugaku36.plist"
 
 HOME_PATH = path.expanduser("~")
 INSTALL_PATH = path.join(HOME_PATH, ".cache", "fugaku36")
@@ -16,6 +17,8 @@ IMAGE_PATH = path.join(INSTALL_PATH, "images")
 JSON_PATH = path.join(INSTALL_PATH, "resource.json")
 PY_SCRIPT_PATH = path.join(INSTALL_PATH, "fugaku36.py")
 SH_SCRIPT_PATH = path.join(INSTALL_PATH, "fugaku36")
+PLIST_PATH = path.join(INSTALL_PATH, "fugaku36.plist")
+LAUNCH_AGENTS_PATH = path.join(HOME_PATH, "Library", "LaunchAgents", "fugaku36.plist")
 
 
 def install():
@@ -77,7 +80,20 @@ def install():
         "/usr/local/bin/fugaku36"
     ]
     subprocess.run(cmd)
-    logger.info("Symbolic link created.")
+    logger.info("Symbolic link is created.")
+
+    cmd = [
+        "cp",
+        PLIST_PATH,
+        LAUNCH_AGENTS_PATH
+    ]
+    subprocess.run(cmd)
+
+    cmd = [
+        "launchctl", "load", LAUNCH_AGENTS_PATH
+    ]
+    subprocess.run(cmd)
+    logger.info("Application is registered to launchd.")
 
     logger.info("fugaku36 is successfully installed!")
 
