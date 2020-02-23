@@ -18,7 +18,6 @@ JSON_PATH = path.join(INSTALL_PATH, "resource.json")
 PY_SCRIPT_PATH = path.join(INSTALL_PATH, "fugaku36.py")
 SH_SCRIPT_PATH = path.join(INSTALL_PATH, "fugaku36")
 PLIST_PATH = path.join(INSTALL_PATH, "fugaku36.plist")
-LAUNCH_AGENTS_PATH = path.join(HOME_PATH, "Library", "LaunchAgents", "fugaku36.plist")
 
 
 def install():
@@ -81,6 +80,9 @@ def install():
     ]
     subprocess.run(cmd)
     logger.info("Symbolic link is created.")
+
+    request.urlretrieve(PLIST_URL, PLIST_PATH)
+    logger.info("fugaku36.plist have been downloaded.")
 
     logger.info("fugaku36 is successfully installed!")
 
