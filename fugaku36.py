@@ -22,7 +22,7 @@ def update():
     image_path = path.join(IMAGE_PATH, random.choice(image_names))
     logger.info("Background image will be changed to %s", image_path)
 
-    if change_background(image_path):
+    if not change_background(image_path):
         logger.error("Failed to update background image.")
 
 
