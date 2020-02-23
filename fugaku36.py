@@ -1,3 +1,4 @@
+import argparse
 import json
 import logging
 import random
@@ -9,11 +10,11 @@ IMAGE_PATH = path.join(APP_PATH, "images")
 JSON_PATH = path.join(APP_PATH, "resource.json")
 
 
-def update():
+def update(log_level=logging.ERROR):
     logger = logging.getLogger("fugaku36")
     sh = logging.StreamHandler()
     logger.addHandler(sh)
-    logger.setLevel(logging.INFO)
+    logger.setLevel(log_level)
 
     with open(JSON_PATH) as f:
         j = json.load(f)
@@ -40,4 +41,13 @@ def change_background(image_path):
 
 
 if __name__ == "__main__":
-    update()
+    parser = argparse.ArgumentParser(description="Fugaku36")
+    parser.add_argument("--verbose", action="store_true",
+                        help="Make the output more detail.")
+    args = parser.parse_args()
+
+    level = logging.ERROR
+    if args.verbose:
+        level = logging.INFO
+
+    update(level)
